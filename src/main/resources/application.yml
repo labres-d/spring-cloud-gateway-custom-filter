@@ -8,16 +8,3 @@ spring:
       port: 6379
   application:
     name: rate-limiter
-  cloud:
-    gateway:
-      routes:
-        - id: route1
-          uri: http://localhost:8081/
-          predicates:
-            - Path=/**
-          filters:
-            - name: RequestRateLimiter
-              args:
-                redis-rate-limiter.replenishRate: 2
-                redis-rate-limiter.burstCapacity: 3
-                redis-rate-limiter.requestedTokens: 1
