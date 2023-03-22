@@ -14,6 +14,9 @@ public class AuthenticationFilter implements GatewayFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
+
+        //TODO: CHECK IF USER IS VALID AND IF THERE IS REQUESTS AVAILABLE.
+
         if (!request.getHeaders().containsKey("Authorization")) {
             ServerHttpResponse response = exchange.getResponse();
             response.setStatusCode(HttpStatus.UNAUTHORIZED);
