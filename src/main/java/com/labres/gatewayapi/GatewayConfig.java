@@ -16,7 +16,7 @@ import java.util.List;
 public class GatewayConfig {
 
     @Bean
-    public RouteLocator routes(RouteLocatorBuilder builder, AuthenticationFilter filter) {
+    public RouteLocator routes(RouteLocatorBuilder builder, CustomFilter filter) {
         return builder.routes()
                 .route("route1", r -> r.path("/**").filters(f -> f.filter(filter)
                         .requestRateLimiter(config -> config.setRateLimiter(customRateLimiter()).setDenyEmptyKey(true)

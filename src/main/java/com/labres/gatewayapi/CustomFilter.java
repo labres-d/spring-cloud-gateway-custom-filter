@@ -1,5 +1,6 @@
 package com.labres.gatewayapi;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,8 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Component
-public class AuthenticationFilter implements GatewayFilter {
+@Slf4j
+public class CustomFilter implements GatewayFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
@@ -24,7 +26,9 @@ public class AuthenticationFilter implements GatewayFilter {
         }
         String token = request.getHeaders().getOrEmpty("Authorization").get(0);
         exchange.getRequest().mutate().header("id", token).build();
-        return chain.filter(exchange);
+        return chain.filter(exchange).then(Mono.fromRunnable(() -> {
+            log.info("Global Post Filter executed");
+        }));
     }
 
 }
